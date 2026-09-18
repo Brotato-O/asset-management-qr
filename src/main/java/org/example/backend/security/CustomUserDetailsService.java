@@ -3,11 +3,12 @@
     import org.example.backend.organization.User.User;
     import org.example.backend.organization.User.UserRepository;
     import org.springframework.security.core.userdetails.UserDetails;
+    import org.springframework.security.core.userdetails.UserDetailsService;
     import org.springframework.security.core.userdetails.UsernameNotFoundException;
     import org.springframework.stereotype.Service;
 
     @Service
-    public class CustomUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+    public class CustomUserDetailsService implements UserDetailsService {
 
         private final UserRepository userRepository;
 

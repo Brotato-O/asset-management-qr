@@ -1,17 +1,21 @@
 package org.example.backend.organization.User;
 
 import org.example.backend.enums.UserStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserService {
-
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UserValidator userValidator;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserValidator userValidator, PasswordEncoder passwordEncoder, PasswordEncoder passwordEncoder1) {
         this.userRepository = userRepository;
+        this.userValidator = userValidator;
+        this.passwordEncoder = passwordEncoder1;
     }
 
     public boolean existsActiveUser(int id) {
@@ -33,10 +37,13 @@ public class UserService {
                 );
     }
 
-//    // Tạo User
-//    public User createUser(User newUser) {
-//        return userRepository.save(newUser);
-//    }
+    // Tạo User
+    public User createUser(User newUser) {
+        userValidator.validateUser(newUser);
+        String encodePassword= passwordEncoder.encode(newUser.getPassword());
+        newUser.setPassword(encodePassword);
+        return userRepository.save(newUser);
+    }
 //
 //    // Cập nhật User
 //    public User updateUser(int id, User newUser) {
