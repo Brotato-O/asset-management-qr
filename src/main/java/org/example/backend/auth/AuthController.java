@@ -1,5 +1,6 @@
 package org.example.backend.auth;
 
+import jakarta.validation.Valid;
 import org.example.backend.dto.LoginRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login (@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<String> login (@Valid @RequestBody LoginRequest loginRequest){
         String token= authService.loginAndGetToken(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok(token);
     }
